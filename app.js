@@ -113,8 +113,9 @@ var question10 = {
 let currentQuestion = 1;
 var allQuestions = [question01, question02, question03, question04, question05, question06, question07, question08, question09, question10];
 var numberofQuestionsCorrect = 0;
+
 //*************** State Modifications ***************
-renderQuestionPage();
+
 
 // Increment current question
 function incrementCurrentQuestion() {
@@ -131,7 +132,15 @@ function countOfCorrectAnswers(answer, correctAnswer) {
 }
 
 //*************** - Render functions - **************
-//Render entire question page
+
+// Render start page
+$(document).ready(function() {
+	$('#catFactsLogo').html('<img src="http://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" />');
+	$('#catFactsIntro').html('<button id="startButton" type="reset">Get started meow!</button>');
+	startQuiz();
+})
+
+// Render entire question page
 function renderQuestionPage() {
 	renderQuestionHeader(numberofQuestionsCorrect);
 	renderQuestionDescription();
@@ -141,12 +150,19 @@ function renderQuestionPage() {
 
 //Render question header
 function renderQuestionHeader(numberofQuestionsCorrect) {
-	$('h1').html('Question ' + currentQuestion + " of 10");
-	if (numberofQuestionsCorrect === 1) {
-		$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " question correctly.");
-	} else if (numberofQuestionsCorrect > 2 || numberofQuestionsCorrect === 0) {
-		$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " questions correctly.");
-	}
+	if (currentQuestion <= 10) {
+		$('h1').html('Question ' + currentQuestion + " of 10");
+		if (numberofQuestionsCorrect === 1) {
+			$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " question correctly.");
+		} else if (numberofQuestionsCorrect > 2 || numberofQuestionsCorrect === 0) {
+			$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " questions correctly.");
+		}
+	} else if (currentQuestion === 11) {
+		$('h1').html('Congrats!');
+		$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " out of 10 questions correctly.");
+		$('#h2').epmty();
+	}	
+		
 }
 
 // Render question description
@@ -188,6 +204,15 @@ function displayResult(answer) {
 
 //*************** - Event listeners - ***************
  
+// Starts Quiz
+function startQuiz() {
+	$('#startButton').on('click', function() {
+		$('#catFactsLogo').empty();
+		$('#catFactsIntro').empty();
+		renderQuestionPage();
+	})
+}
+
 // Listens for answer submission
 function submitAnswer() {
 	$('#submitButton').on('click', function() {
