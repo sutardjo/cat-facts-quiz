@@ -1,12 +1,5 @@
-//*************** State Modifications ***************
-
-
-//*************** - Render functions - **************
-
-
-//*************** - Event listeners - ***************
-
 //*************** ---  App States --- ***************
+
 var catQuestions = []
 
 var question01 = {
@@ -83,7 +76,7 @@ var question07 = {
 	choice4: "Warm to the touch",
 	choice5: "Cats don't have a preference",
 	answer: "Room temperature",
-	correct: false;
+	correct: false
 }
 
 var question08 = {
@@ -118,3 +111,48 @@ var question10 = {
 	answer: "30%",
 	correct: false
 }
+
+let currentQuestion = 1;
+var allQuestions = [question01, question02, question03, question04, question05, question06, question07, question08, question09, question10];
+
+//*************** State Modifications ***************
+renderQuestionPage();
+
+//*************** - Render functions - **************
+//Render entire question page
+function renderQuestionPage() {
+	renderQuestionHeader();
+	renderQuestionDescription();
+	renderChoices();
+}
+
+//Render question header
+renderQuestionHeader();
+function renderQuestionHeader() {
+	$('h1').html('Question ' + currentQuestion + " of 10");
+	if (currentQuestion !== 1) {
+		$('#questionsAnsweredCorrectly').html("You've answered " + currentQuestion + " question correctly.");
+	}
+}
+
+// Render question description
+function renderQuestionDescription() {
+	$('h2').html(allQuestions[currentQuestion - 1].questionDescription);
+}
+
+// Render Multiple Choice
+function renderChoices() {
+	$('#multipleChoice').html('<form><input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice1 + '"/>' + allQuestions[currentQuestion - 1].choice1 + '<br>' + 
+		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice2 + '"/>' + allQuestions[currentQuestion - 1].choice2 + '<br>' + 
+		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice3 + '"/>' + allQuestions[currentQuestion - 1].choice3 + '<br>' + 
+		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice4 + '"/>' + allQuestions[currentQuestion - 1].choice4 + '<br>' + 
+		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice5 + '"/>' + allQuestions[currentQuestion - 1].choice5 + '<br>' + 
+		'<input type="submit" value="Submit">' + 
+		'</form>'
+		);
+}
+
+
+
+//*************** - Event listeners - ***************
+
