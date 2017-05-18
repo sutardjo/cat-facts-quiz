@@ -1,7 +1,5 @@
 //*************** ---  App States --- ***************
 
-var catQuestions = []
-
 var question01 = {
 	questionDescription: "The oldest cat on record was Creme Puff. He died in Texas in 2005. How old was he?",
 	choice1: "22 years old",
@@ -114,24 +112,40 @@ var question10 = {
 
 let currentQuestion = 1;
 var allQuestions = [question01, question02, question03, question04, question05, question06, question07, question08, question09, question10];
-
+var numberofQuestionsCorrect = 0;
 //*************** State Modifications ***************
 renderQuestionPage();
+
+// Increment current question
+function incrementCurrentQuestion() {
+	currentQuestion = currentQuestion + 1;
+}
+
+// Keeps track of how many questions answered correctly
+function countOfCorrectAnswers(answer, correctAnswer) {
+	console.log(numberofQuestionsCorrect);
+	if (answer === correctAnswer) {
+		numberofQuestionsCorrect = numberofQuestionsCorrect + 1;
+	}
+	renderQuestionHeader(numberofQuestionsCorrect);
+}
 
 //*************** - Render functions - **************
 //Render entire question page
 function renderQuestionPage() {
-	renderQuestionHeader();
+	renderQuestionHeader(numberofQuestionsCorrect);
 	renderQuestionDescription();
 	renderChoices();
+	submitAnswer();
 }
 
 //Render question header
-renderQuestionHeader();
-function renderQuestionHeader() {
+function renderQuestionHeader(numberofQuestionsCorrect) {
 	$('h1').html('Question ' + currentQuestion + " of 10");
-	if (currentQuestion !== 1) {
-		$('#questionsAnsweredCorrectly').html("You've answered " + currentQuestion + " question correctly.");
+	if (numberofQuestionsCorrect === 1) {
+		$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " question correctly.");
+	} else if (numberofQuestionsCorrect > 2 || numberofQuestionsCorrect === 0) {
+		$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " questions correctly.");
 	}
 }
 
@@ -147,12 +161,48 @@ function renderChoices() {
 		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice3 + '"/>' + allQuestions[currentQuestion - 1].choice3 + '<br>' + 
 		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice4 + '"/>' + allQuestions[currentQuestion - 1].choice4 + '<br>' + 
 		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice5 + '"/>' + allQuestions[currentQuestion - 1].choice5 + '<br>' + 
-		'<input type="submit" value="Submit">' + 
+		'<input id="submitButton" type="submit" value="Submit">' + 
 		'</form>'
 		);
 }
 
+// Render results 
+function displayResult(answer) {
+	let correctAnswer = allQuestions[currentQuestion - 1].answer;
+	if (answer === correctAnswer) {
+		$('#results').html('<span id="rightOrWrong">You got it right meow!</span>' + 
+		'<span id="youAnswered">You answered ' + answer + '</span>' + '<br>' + 
+		'<button id="continueButton" type="reset">Continue</button>'
+		);
+	} else {
+		$('#results').html('<span id="rightOrWrong">You got it wrong!</span>' + 
+		'<span id="youAnswered">You answered ' + answer + '. The correct answer is ' + correctAnswer + '</span>' + '<br>' + 
+		'<button id="continueButton" type="reset">Continue</button>'
+		);
+	}
+	event.preventDefault();
+	countOfCorrectAnswers(answer, correctAnswer);
+	continueToNextQuestion();
+}
 
 
 //*************** - Event listeners - ***************
+ 
+// Listens for answer submission
+function submitAnswer() {
+	$('#submitButton').on('click', function() {
+		console.log("Submit button clicked!");
+		var answer = $('input[name = multipleChoiceRadios]:checked').val();
+		$('#multipleChoice').empty();
+		displayResult(answer);
+	})
+}
 
+// Clicking the continue button to go to next quetion
+function continueToNextQuestion() {
+	$('#continueButton').on('click', function() {
+		$('#results').empty();
+		incrementCurrentQuestion();
+		renderQuestionPage();
+	})
+}
