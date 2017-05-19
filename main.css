@@ -40,7 +40,7 @@ body {
   cursor: pointer;
 }
 
-#startButton:hover, #submitButton:hover:enabled  {
+#startButton:hover, #continueButton:hover #submitButton:hover:enabled  {
     background-color: #f6ca65;
     border-color: #3e3e3e;
     color: #3e3e3e;
@@ -212,4 +212,14 @@ input[type=radio]:checked ~ label{
   text-align: center;
   margin: 0 auto;
   display: block;
+}
+
+#results{
+  font-size: 50px;
+  font-family: "Great Vibes";
+  color: rgb(248, 184, 100);
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  padding-top: 50px;
 }

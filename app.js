@@ -159,9 +159,18 @@ function renderQuestionHeader(numberofQuestionsCorrect) {
 			$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " questions correctly.");
 		}
 	} else if (currentQuestion === 11) {
-		$('h1').html('Congrats!');
+		$('h1').html('<span id="results">Results</span>');
 		$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " out of 10 questions correctly.");
-		$('#h2').epmty();
+		$('h2').empty();
+		if (numberofQuestionsCorrect <= 3) {
+			$('h2').html("You're a dog person aren't you?");
+		}
+		if (numberofQuestionsCorrect > 3 && numberofQuestionsCorrect < 7) {
+			$('h2').html("You know a thing or two about our kitty friends.");
+		}
+		if (numberofQuestionsCorrect >= 7) {
+			$('h2').html("You are a kitty-obsessed expert!");
+		}
 	}	
 		
 }
@@ -237,9 +246,8 @@ function continueToNextQuestion() {
 
 // Change button state
 function enableSubmitButton() {
-	$('#multipleChoice').on('click', function() {
+	$('input:radio').on('click', function() {
 		console.log("Clicked a radio!")
-
 		$('#submitButton').removeAttr('disabled');
 	})
 }
