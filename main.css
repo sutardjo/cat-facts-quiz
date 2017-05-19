@@ -1,0 +1,38 @@
+body {
+  background-color: #3e3e3e;
+}
+
+/************** Start Page Styling **************/
+
+#startButton {
+  border-style: solid;
+  border-width: 5px;
+  border-color: #f6ca65;
+  background-color: rgba(255, 255, 255, 0);
+  width: 705px;
+  height: 119px;
+  font-size: 40px;
+  font-family: "Montserrat";
+  color: #f6ca65;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  cursor: pointer;
+}
+
+#startButton:hover {
+    background-color: #f6ca65;
+    border-color: #3e3e3e;
+    color: #3e3e3e;
+}
+
+#catFactsLogo img {
+  margin: 0 auto;
+  display: block;
+  padding-top: 100px;
+}
+
+
+/************** Question Pages **************/

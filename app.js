@@ -135,8 +135,8 @@ function countOfCorrectAnswers(answer, correctAnswer) {
 
 // Render start page
 $(document).ready(function() {
-	$('#catFactsLogo').html('<img src="http://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" />');
-	$('#catFactsIntro').html('<button id="startButton" type="reset">Get started meow!</button>');
+	$('#catFactsLogo').html('<img src="catFactsLogoImage.png"/>');
+	$('#catFactsIntro').html('<button id="startButton" type="reset">' + "Let's start meow!" + '</button>');
 	startQuiz();
 })
 
