@@ -137,6 +137,7 @@ function countOfCorrectAnswers(answer, correctAnswer) {
 $(document).ready(function() {
 	$('#catFactsLogo').html('<img src="catFactsLogoImage.png"/>');
 	$('#catFactsIntro').html('<button id="startButton" type="reset">' + "Let's start meow!" + '</button>');
+	$('#questionCopy').empty();
 	startQuiz();
 })
 
@@ -151,10 +152,10 @@ function renderQuestionPage() {
 //Render question header
 function renderQuestionHeader(numberofQuestionsCorrect) {
 	if (currentQuestion <= 10) {
-		$('h1').html('Question ' + currentQuestion + " of 10");
-		if (numberofQuestionsCorrect === 1) {
+		$('h1').html('<span id="questionCopy">Question</span><br><span id="questionCount">' + currentQuestion + ' of 10' + '</span>' );
+		if (numberofQuestionsCorrect === 1 || currentQuestion > 1) {
 			$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " question correctly.");
-		} else if (numberofQuestionsCorrect > 2 || numberofQuestionsCorrect === 0) {
+		} else if (numberofQuestionsCorrect > 2) {
 			$('#questionsAnsweredCorrectly').html("You've answered " + numberofQuestionsCorrect + " questions correctly.");
 		}
 	} else if (currentQuestion === 11) {
@@ -167,19 +168,21 @@ function renderQuestionHeader(numberofQuestionsCorrect) {
 
 // Render question description
 function renderQuestionDescription() {
-	$('h2').html(allQuestions[currentQuestion - 1].questionDescription);
+	$('h2').html('<hr><br>' + allQuestions[currentQuestion - 1].questionDescription);
 }
 
 // Render Multiple Choice
 function renderChoices() {
-	$('#multipleChoice').html('<form><input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice1 + '"/>' + allQuestions[currentQuestion - 1].choice1 + '<br>' + 
-		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice2 + '"/>' + allQuestions[currentQuestion - 1].choice2 + '<br>' + 
-		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice3 + '"/>' + allQuestions[currentQuestion - 1].choice3 + '<br>' + 
-		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice4 + '"/>' + allQuestions[currentQuestion - 1].choice4 + '<br>' + 
-		'<input type="radio" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice5 + '"/>' + allQuestions[currentQuestion - 1].choice5 + '<br>' + 
-		'<input id="submitButton" type="submit" value="Submit">' + 
+	$('#multipleChoice').html('<form><ul><li><input type="radio" id="choice1" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice1 + '"/><label for="choice1">' + allQuestions[currentQuestion - 1].choice1 + '</label><div class="check"></div></li>' + 
+		'<li><input type="radio" id="choice2" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice2 + '"/><label for="choice2">' + allQuestions[currentQuestion - 1].choice2 + '</label><div class="check"><div class="inside"></div></div></li>' + 
+		'<li><input type="radio" id="choice3" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice3 + '"/><label for="choice3">' + allQuestions[currentQuestion - 1].choice3 + '</label><div class="check"><div class="inside"></div></div></li>' + 
+		'<li><input type="radio" id="choice4" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice4 + '"/><label for="choice4">' + allQuestions[currentQuestion - 1].choice4 + '</label><div class="check"><div class="inside"></div></div></li>' + 
+		'<li><input type="radio" id="choice5" name="multipleChoiceRadios" value="' + allQuestions[currentQuestion - 1].choice5 + '"/><label for="choice5">' + allQuestions[currentQuestion - 1].choice5 + '</label><div class="check"><div class="inside"></div></div></li></ul>' + 
+		'<input id="submitButton" type="submit" value="Submit" disabled>' + 
 		'</form>'
 		);
+		enableSubmitButton();
+
 }
 
 // Render results 
@@ -192,7 +195,7 @@ function displayResult(answer) {
 		);
 	} else {
 		$('#results').html('<span id="rightOrWrong">You got it wrong!</span>' + 
-		'<span id="youAnswered">You answered ' + answer + '. The correct answer is ' + correctAnswer + '</span>' + '<br>' + 
+		'<span id="youAnswered"> You answered ' + answer + '. The correct answer is ' + correctAnswer + '</span>' + '<br>' + 
 		'<button id="continueButton" type="reset">Continue</button>'
 		);
 	}
@@ -229,5 +232,14 @@ function continueToNextQuestion() {
 		$('#results').empty();
 		incrementCurrentQuestion();
 		renderQuestionPage();
+	})
+}
+
+// Change button state
+function enableSubmitButton() {
+	$('#multipleChoice').on('click', function() {
+		console.log("Clicked a radio!")
+
+		$('#submitButton').removeAttr('disabled');
 	})
 }
